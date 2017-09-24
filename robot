@@ -51,7 +51,7 @@ echo -e "\n\n### Building docker image, including copying the tests"
 docker build -t rf:latest .
 
 echo -e "\n\n### Running the tests now"
-docker run --rm -t --name rf \
+docker run --rm -ti --name rf \
   -v "$this_path/results":/home/robot/results \
   -e ZALENIUM_HOST=${ZALENIUM_HOST:-zalenium} \
   --link zalenium:zalenium \
