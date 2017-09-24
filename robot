@@ -29,7 +29,7 @@ docker stop zalenium || true
 docker run -d --rm -ti --name zalenium -p 4444:4444 \
   -e DOCKER=1.11 \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v "$(pwd)/videos":/home/seluser/videos \
+  -v "$this_path/videos":/home/seluser/videos \
   dosel/zalenium start \
     --chromeContainers 1 \
     --firefoxContainers 0 \
