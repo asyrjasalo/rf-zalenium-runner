@@ -24,7 +24,6 @@ echo "Pulling Docker image 'elgalu/selenium'"
 docker pull elgalu/selenium
 
 echo -e "\n\nStarting Zalenium in background\n"
-chmod g+s "$this_path/videos"
 docker stop zalenium || true
 docker run -d --rm -ti --name zalenium -p 4444:4444 \
   -e DOCKER=1.11 \
