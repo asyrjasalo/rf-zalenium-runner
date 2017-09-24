@@ -52,7 +52,6 @@ echo -e "\n\nWaiting Zalenium to be started on the background"
 wait_zalenium_started
 
 echo " ready, running the tests now"
-chmod g+s "$this_path/output"
 docker run --rm -t --name rf \
   -v "$this_path"/tests:/rf/tests \
   -v "$this_path"/output:/rf/output \
