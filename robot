@@ -47,7 +47,7 @@ trap "echo 'Stopping Zalenium...'; docker stop zalenium &>/dev/null ; exit 1" SI
 echo -e "\n\nBuilding Robot Framework in Docker\n"
 docker build -t rf:latest "$this_path/docker"
 
-echo -e "\n\nWaiting Zalenium to be started on the background"
+echo -e "\n\nWaiting Zalenium to be started in background"
 wait_zalenium_started
 
 echo " ready, running the tests now"
