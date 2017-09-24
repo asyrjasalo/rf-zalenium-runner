@@ -52,7 +52,7 @@ docker build -t rf:latest .
 
 echo -e "\n\n### Running the tests now"
 docker run --rm -t --name rf \
-  -v "$this_path"/output:/rf/output \
+  -v "$this_path"/results:/home/robot/results \
   -e ZALENIUM_HOST=${ZALENIUM_HOST:-zalenium} \
   --link zalenium:zalenium \
   rf:latest "${@:-tests}"

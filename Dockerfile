@@ -1,20 +1,15 @@
 FROM python:3
 
-RUN pip install --upgrade pip
+RUN useradd --create-home --shell /bin/bash robot
 
-RUN mkdir /rf
-COPY docker/entry.sh /rf/entry.sh
-COPY docker/requirements.txt /rf/requirements.txt
-RUN pip install -r /rf/requirements.txt
+WORKDIR /home/robot
 
-RUN adduser --system --group --uid 1000 robot
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-WORKDIR /rf
-RUN mkdir /rf/output
-
-COPY tests /rf/tests
-RUN chown -R robot:robot /rf
+COPY tests tests
+RUN chown -R robot tests
 
 USER robot
 
-ENTRYPOINT ["/rf/entry.sh"]
+ENTRYPOINT ["robot", "--outputdir", "results"]
