@@ -19,11 +19,11 @@ wait_zalenium_started() {
 
 ### main #######################################################################
 
-echo "Pulling Docker image 'elgalu/selenium'"
+echo "### Pulling Docker image 'elgalu/selenium'"
 docker pull elgalu/selenium
 
 if ! docker top zalenium &>/dev/null ; then
-  echo -e "\n\nStarting Zalenium in background\n"
+  echo -e "\n\n### Starting Zalenium in background"
   docker run -d --rm -ti --name zalenium -p 4444:4444 \
     -e DOCKER=1.11 \
     -v /var/run/docker.sock:/var/run/docker.sock \
@@ -40,17 +40,17 @@ if ! docker top zalenium &>/dev/null ; then
       --testingBotEnabled false \
       --startTunnel false \
       --sendAnonymousUsageInfo false
+
+  trap "echo '### Stopping Zalenium...'; docker stop zalenium &>/dev/null ; exit 1" SIGINT SIGTERM
+
+  echo -e "\n\n### Waiting Zalenium to be started in background"
+  wait_zalenium_started
 fi
 
-trap "echo 'Stopping Zalenium...'; docker stop zalenium &>/dev/null ; exit 1" SIGINT SIGTERM
-
-echo -e "\n\nBuilding Robot Framework in Docker\n"
+echo -e "\n\n### Building docker image, including copying the tests"
 docker build -t rf:latest .
 
-echo -e "\n\nWaiting Zalenium to be started in background"
-wait_zalenium_started
-
-echo " ready, running the tests now"
+echo -e "\n\n### Running the tests now"
 docker run --rm -t --name rf \
   -v "$this_path"/output:/rf/output \
   -e ZALENIUM_HOST=${ZALENIUM_HOST:-zalenium} \
