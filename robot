@@ -45,14 +45,13 @@ docker run -d --rm -ti --name zalenium -p 4444:4444 \
 trap "echo 'Stopping Zalenium...'; docker stop zalenium &>/dev/null ; exit 1" SIGINT SIGTERM
 
 echo -e "\n\nBuilding Robot Framework in Docker\n"
-docker build -t rf:latest "$this_path/docker"
+docker build -t rf:latest .
 
 echo -e "\n\nWaiting Zalenium to be started in background"
 wait_zalenium_started
 
 echo " ready, running the tests now"
 docker run --rm -t --name rf \
-  -v "$this_path"/tests:/rf/tests \
   -v "$this_path"/output:/rf/output \
   -e ZALENIUM_HOST=${ZALENIUM_HOST:-zalenium} \
   --link zalenium:zalenium \
