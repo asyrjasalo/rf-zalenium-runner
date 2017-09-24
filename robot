@@ -30,7 +30,7 @@ if ! docker top zalenium &>/dev/null ; then
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v "$this_path/videos":/home/seluser/videos \
     dosel/zalenium start \
-      --chromeContainers 1 \
+      --chromeContainers 0 \
       --firefoxContainers 0 \
       --maxDockerSeleniumContainers 4 \
       --screenWidth 1366 --screenHeight 768 \
