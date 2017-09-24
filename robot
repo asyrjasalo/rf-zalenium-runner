@@ -9,12 +9,11 @@ this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 ### helpers ####################################################################
 
-wait_zalenium_started()
-{
+wait_zalenium_started() {
   local done_msg="Zalenium is now ready!"
-  while ! docker logs zalenium | grep "${done_msg}" >/dev/null; do
-      echo -n '.'
-      sleep 0.2
+  while ! docker logs zalenium | grep "$done_msg" >/dev/null; do
+    echo -n '.'
+    sleep 0.2
   done
 }
 
