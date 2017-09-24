@@ -23,24 +23,25 @@ wait_zalenium_started()
 echo "Pulling Docker image 'elgalu/selenium'"
 docker pull elgalu/selenium
 
-echo -e "\n\nStarting Zalenium in background\n"
-docker stop zalenium &>/dev/null || true
-docker run -d --rm -ti --name zalenium -p 4444:4444 \
-  -e DOCKER=1.11 \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v "$this_path/videos":/home/seluser/videos \
-  dosel/zalenium start \
-    --chromeContainers 1 \
-    --firefoxContainers 0 \
-    --maxDockerSeleniumContainers 4 \
-    --screenWidth 1366 --screenHeight 768 \
-    --timeZone "Europe/Helsinki" \
-    --videoRecordingEnabled true \
-    --sauceLabsEnabled false \
-    --browserStackEnabled false \
-    --testingBotEnabled false \
-    --startTunnel false \
-    --sendAnonymousUsageInfo false
+if ! docker top zalenium &>/dev/null ; then
+  echo -e "\n\nStarting Zalenium in background\n"
+  docker run -d --rm -ti --name zalenium -p 4444:4444 \
+    -e DOCKER=1.11 \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "$this_path/videos":/home/seluser/videos \
+    dosel/zalenium start \
+      --chromeContainers 1 \
+      --firefoxContainers 0 \
+      --maxDockerSeleniumContainers 4 \
+      --screenWidth 1366 --screenHeight 768 \
+      --timeZone "Europe/Helsinki" \
+      --videoRecordingEnabled true \
+      --sauceLabsEnabled false \
+      --browserStackEnabled false \
+      --testingBotEnabled false \
+      --startTunnel false \
+      --sendAnonymousUsageInfo false
+fi
 
 trap "echo 'Stopping Zalenium...'; docker stop zalenium &>/dev/null ; exit 1" SIGINT SIGTERM
 
