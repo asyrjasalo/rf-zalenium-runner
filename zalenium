@@ -49,7 +49,11 @@ down() {
 ### main #######################################################################
 
 case "$1" in
-  up|start|reload|restart)
+  up|start)
+    up
+    ;;
+  reload|restart)
+    down
     up
     ;;
   down|stop)
