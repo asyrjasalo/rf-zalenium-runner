@@ -31,7 +31,6 @@ up() {
 
   export COMPOSE_HTTP_TIMEOUT=300
 
-  down
   docker-compose -p "zalenium" up -d
 
   echo -n "### Waiting for Zalenium to start"
@@ -59,10 +58,7 @@ case "$1" in
   exec)
     up
     shift
-    eval "$@" || true
-    command_exit_status=$?
-    down
-    exit $command_exit_status
+    eval "$@"
     ;;
   logs)
     docker-compose -p "zalenium" logs --follow
