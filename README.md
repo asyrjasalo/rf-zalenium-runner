@@ -1,6 +1,6 @@
 # rf-zalenium-runner
 
-Run Robot Framework SeleniumLibrary based tests against [Zalenium](https://github.com/zalando/zalenium).
+Run Robot Framework SeleniumLibrary tests in [Zalenium](https://github.com/zalando/zalenium).
 
 ## Usage
 
