@@ -56,7 +56,7 @@ case "$1" in
     down
     up
     ;;
-  down|stop)
+  down|destroy)
     down
     ;;
   exec)
