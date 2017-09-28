@@ -1,10 +1,12 @@
 *** Settings ***
-Library  SeleniumLibrary
 Library  DebugLibrary
+Library  SeleniumLibrary
 
 *** Test Cases ***
-This Should Run
-    Open Browser  browser=chrome  remote_url=http://%{ZALENIUM_HOST}:4444/wd/hub  url=http://google.com
- #   Debug
-    Sleep  30
-    Close All Browsers
+Hello Zalenium
+    Open Browser  http://google.com   chrome   remote_url=http://%{ZALENIUM_HOST}:4444/wd/hub
+    Input Text    lst-ib              rf-zalenium-runner
+    Submit Form
+    # Debug
+    Sleep         20s
+    [Teardown]    Close All Browsers

@@ -1,6 +1,6 @@
 # rf-zalenium-runner
 
-Run Robot Framework (SeleniumLibrary) tests against Zalenium - both running in Docker.
+Run Robot Framework SeleniumLibrary based tests against [Zalenium](https://github.com/zalando/zalenium).
 
 ## Usage
 
@@ -10,6 +10,8 @@ Run Robot Framework (SeleniumLibrary) tests against Zalenium - both running in D
 
 If no paths are explicitly given, `tests` is assumed.
 
-### Enter REPL in the same container
+### Dashboards
 
-    ./rfdebug
+* Examine test runs live: http://localhost:4444/grid/admin/live
+* Dashboard for recorded videos: http://localhost:4444/dashboard/
+* Selenium Grid console: http://localhost:4444/grid/console

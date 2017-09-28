@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  zalenium:
+    image: dosel/zalenium:3
+    container_name: zalenium
+    hostname: zalenium
+    network_mode: "bridge"
+    tty: true
+    volumes:
+      - ./videos:/home/seluser/videos
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    ports:
+      - 4444:4444
+    command: >
+      start --chromeContainers 1
+            --firefoxContainers 0
+            --maxDockerSeleniumContainers 4
+            --screenWidth 1366 --screenHeight 768
+            --timeZone "Europe/Helsinki"
+            --videoRecordingEnabled true
+            --sauceLabsEnabled false
+            --browserStackEnabled false
+            --testingBotEnabled false
+            --startTunnel false
+            --sendAnonymousUsageInfo false
+    environment:
+      - HOST_UID
+      - HOST_GID
+      - SAUCE_USERNAME
+      - SAUCE_ACCESS_KEY
+      - BROWSER_STACK_USER
+      - BROWSER_STACK_KEY
+      - TESTINGBOT_KEY
+      - TESTINGBOT_SECRET
+
+  selenium:
+    image: elgalu/selenium
+    network_mode: "bridge"
+    environment:
+      - SELENIUM_HUB_PORT=4444

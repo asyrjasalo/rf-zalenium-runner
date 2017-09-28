@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+set -e
+
+### globals ####################################################################
+
+this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+### helpers ####################################################################
+
+portable_timeout() {
+  perl -e 'alarm shift; exec @ARGV' "$@";
+}
+
+wait_zalenium_started() {
+  local done_msg="Zalenium is now ready!"
+  while ! docker logs zalenium | grep "$done_msg" >/dev/null; do
+    echo -n '.'
+    sleep 0.2
+  done
+}
+export -f wait_zalenium_started
+
+### actions ####################################################################
+
+up() {
+  if [ "$(uname -s)" != 'Darwin' ]; then
+    export HOST_UID="$(id -u)"
+    export HOST_GID="$(id -g)"
+  fi
+
+  export COMPOSE_HTTP_TIMEOUT=300
+
+  down
+  docker-compose -p "zalenium" up -d
+
+  echo -n "### Waiting for Zalenium to start"
+  if ! portable_timeout 60 bash -c wait_zalenium_started 2>/dev/null; then
+    echo "Error: Zalenium starting timeouted, exiting."
+    exit 124  # same as GNU coreutils `timeout` exit status
+  fi
+
+  echo "... ready for the tests"
+}
+
+down() {
+  docker-compose -p "zalenium" down
+}
+
+### main #######################################################################
+
+case "$1" in
+  up|start|reload|restart)
+    up
+    ;;
+  down|stop)
+    down
+    ;;
+  exec)
+    up
+    shift
+    eval "$@" || true
+    command_exit_status=$?
+    down
+    exit $command_exit_status
+    ;;
+  logs)
+    docker-compose -p "zalenium" logs --follow
+    ;;
+  *)
+    echo "Usage: $0 (up|down|exec|logs)"
+esac
