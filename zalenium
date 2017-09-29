@@ -24,27 +24,48 @@ export -f wait_zalenium_started
 ### actions ####################################################################
 
 up() {
-  if [ "$(uname -s)" != 'Darwin' ]; then
-    export HOST_UID="$(id -u)"
-    export HOST_GID="$(id -g)"
+  if ! docker top zalenium &>/dev/null ; then
+    echo "### Pulling Docker image 'elgalu/selenium'"
+    docker pull elgalu/selenium
+
+    echo "### Starting Zalenium in background"
+    docker run -d -t --name zalenium -p 4444:4444 \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      -v "$this_path/videos":/home/seluser/videos \
+      -e HOST_UID="$(id -u)" \
+      -e HOST_GID="$(id -g)" \
+      -e SAUCE_USERNAME="$SAUCE_USERNAME" \
+      -e SAUCE_ACCESS_KEY="$SAUCE_ACCESS_KEY" \
+      -e BROWSER_STACK_USER="$BROWSER_STACK_USER" \
+      -e BROWSER_STACK_KEY="$BROWSER_STACK_KEY" \
+      -e TESTINGBOT_KEY="$TESTINGBOT_KEY" \
+      -e TESTINGBOT_SECRET="$TESTINGBOT_SECRET" \
+      dosel/zalenium start \
+        --chromeContainers 0 \
+        --firefoxContainers 0 \
+        --maxDockerSeleniumContainers 4 \
+        --screenWidth 1366 --screenHeight 768 \
+        --timeZone "Europe/Helsinki" \
+        --videoRecordingEnabled true \
+        --sauceLabsEnabled false \
+        --browserStackEnabled false \
+        --testingBotEnabled false \
+        --startTunnel false \
+        --sendAnonymousUsageInfo false
+
+    echo "### Waiting Zalenium to be started in background"
+    if ! portable_timeout 60 bash -c wait_zalenium_started 2>/dev/null; then
+      echo "Error: Zalenium starting timeouted, exiting."
+      exit 124  # same as GNU coreutils `timeout` exit status
+    fi
+
+    echo "... ready for the tests"
   fi
-
-  export COMPOSE_HTTP_TIMEOUT=300
-
-  docker pull elgalu/selenium
-  docker-compose up -d
-
-  echo -n "### Waiting for Zalenium to start"
-  if ! portable_timeout 60 bash -c wait_zalenium_started 2>/dev/null; then
-    echo "Error: Zalenium starting timeouted, exiting."
-    exit 124  # same as GNU coreutils `timeout` exit status
-  fi
-
-  echo "... ready for the tests"
 }
 
 down() {
-  docker-compose down
+  docker stop zalenium
+  docker rm zalenium
 }
 
 ### main #######################################################################
@@ -66,7 +87,7 @@ case "$1" in
     eval "$@"
     ;;
   logs)
-    docker-compose logs --follow
+    docker logs zalenium --follow
     ;;
   *)
     echo "Usage: $0 (up|down|exec|logs)"
