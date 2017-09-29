@@ -31,7 +31,8 @@ up() {
 
   export COMPOSE_HTTP_TIMEOUT=300
 
-  docker-compose -p "zalenium" up -d
+  docker pull elgalu/selenium
+  docker-compose up -d
 
   echo -n "### Waiting for Zalenium to start"
   if ! portable_timeout 60 bash -c wait_zalenium_started 2>/dev/null; then
@@ -43,7 +44,7 @@ up() {
 }
 
 down() {
-  docker-compose -p "zalenium" down
+  docker-compose down
 }
 
 ### main #######################################################################
@@ -65,7 +66,7 @@ case "$1" in
     eval "$@"
     ;;
   logs)
-    docker-compose -p "zalenium" logs --follow
+    docker-compose logs --follow
     ;;
   *)
     echo "Usage: $0 (up|down|exec|logs)"

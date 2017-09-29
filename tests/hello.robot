@@ -8,5 +8,5 @@ Hello Zalenium
     Input Text    lst-ib              rf-zalenium-runner
     Submit Form
     # Debug
-    Sleep         20s
+    Sleep         10s
     [Teardown]    Close All Browsers

@@ -10,11 +10,10 @@ services:
     volumes:
       - ./videos:/home/seluser/videos
       - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
     ports:
       - 4444:4444
     command: >
-      start --chromeContainers 1
+      start --chromeContainers 0
             --firefoxContainers 0
             --maxDockerSeleniumContainers 4
             --screenWidth 1366 --screenHeight 768
@@ -34,9 +33,3 @@ services:
       - BROWSER_STACK_KEY
       - TESTINGBOT_KEY
       - TESTINGBOT_SECRET
-
-  selenium:
-    image: elgalu/selenium
-    network_mode: "bridge"
-    environment:
-      - SELENIUM_HUB_PORT=4444
