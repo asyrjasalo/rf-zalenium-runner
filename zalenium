@@ -78,7 +78,10 @@ down() {
 
 ### main #######################################################################
 
-case "$1" in
+action="$1"
+[ -z "$action" ] && action="up"
+
+case "$action" in
   up|start)
     up
     echo "### Zalenium running - to stop and remove: $0 down"
@@ -99,9 +102,7 @@ case "$1" in
   logs)
     docker logs zalenium --follow
     ;;
-  help|--help|-h)
-    echo "Usage: $0 (up|reload|down|logs)|(exec <command>)"
-    ;;
   *)
-    up
+    echo "Usage: $0 (up|reload|down|logs)|(exec <command>)"
+    exit 64
 esac
