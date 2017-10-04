@@ -93,7 +93,7 @@ case "$1" in
   logs)
     docker logs zalenium --follow
     ;;
-  help|--help)
+  help|--help|-h)
     echo "Usage: $0 (up|reload|down|logs)|(exec <command>)"
     ;;
   *)
