@@ -91,6 +91,9 @@ case "$1" in
   logs)
     docker logs zalenium --follow
     ;;
+  help|--help)
+    echo "Usage: $0 (up|reload|down|logs)|(exec <command>)"
+    ;;
   *)
-    echo "Usage: $0 (up|down|exec|logs)"
+    up
 esac
