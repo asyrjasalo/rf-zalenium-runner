@@ -81,7 +81,7 @@ down() {
 case "$1" in
   up|start)
     up
-    echo "### To stop and remove: $0 down"
+    echo "### Zalenium running - to stop and remove: $0 down"
     ;;
   reload|restart)
     down || true
