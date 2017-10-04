@@ -5,7 +5,7 @@ version: '2'
 
 services:
   zalenium:
-    image: dosel/zalenium:3.5.3
+    image: dosel/zalenium:3.5.3c
     container_name: zalenium
     hostname: zalenium
     network_mode: bridge

@@ -46,7 +46,7 @@ up() {
       -e BROWSER_STACK_KEY="$BROWSER_STACK_KEY" \
       -e TESTINGBOT_KEY="$TESTINGBOT_KEY" \
       -e TESTINGBOT_SECRET="$TESTINGBOT_SECRET" \
-      dosel/zalenium:3.5.3 start \
+      dosel/zalenium:3.5.3c start \
         --chromeContainers 1 \
         --firefoxContainers 0 \
         --maxDockerSeleniumContainers 4 \
