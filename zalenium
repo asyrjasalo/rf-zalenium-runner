@@ -75,6 +75,7 @@ down() {
 case "$1" in
   up|start)
     up
+    echo "### To stop and remove: $0 down"
     ;;
   reload|restart)
     down || true
@@ -82,6 +83,7 @@ case "$1" in
     ;;
   down|destroy)
     down
+    echo "### Done. Recorded videos were not removed."
     ;;
   exec)
     up
