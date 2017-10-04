@@ -53,6 +53,8 @@ up() {
         --startTunnel false \
         --sendAnonymousUsageInfo false
 
+    trap "docker stop zalenium ; docker rm zalenium ; exit 1" SIGINT SIGTERM ERR
+
     echo "### Waiting Zalenium to be started in background"
     if ! portable_timeout 60 bash -c wait_zalenium_started 2>/dev/null; then
       echo "Error: Zalenium starting timeouted, exiting."
