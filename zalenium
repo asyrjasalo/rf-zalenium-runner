@@ -32,8 +32,8 @@ up() {
     docker run -d -t --name zalenium -p 4444:4444 \
       -v /var/run/docker.sock:/var/run/docker.sock \
       -v "$this_path/videos":/home/seluser/videos \
-      -e HOST_UID="$(id -u)" \
-      -e HOST_GID="$(id -g)" \
+      -e HOST_UID=$(id -u) \
+      -e HOST_GID=$(id -g) \
       -e SAUCE_USERNAME="$SAUCE_USERNAME" \
       -e SAUCE_ACCESS_KEY="$SAUCE_ACCESS_KEY" \
       -e BROWSER_STACK_USER="$BROWSER_STACK_USER" \

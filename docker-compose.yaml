@@ -5,7 +5,7 @@ services:
     image: dosel/zalenium:3
     container_name: zalenium
     hostname: zalenium
-    network_mode: "bridge"
+    network_mode: bridge
     tty: true
     volumes:
       - ./videos:/home/seluser/videos
