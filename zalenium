@@ -77,7 +77,7 @@ case "$1" in
     up
     ;;
   reload|restart)
-    down
+    down || true
     up
     ;;
   down|destroy)
