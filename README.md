@@ -1,18 +1,8 @@
 [Robot Framework](https://github.com/robotframework/robotframework) [SeleniumLibrary tests](https://github.com/robotframework/SeleniumLibrary) in [Zalenium](https://github.com/zalando/zalenium):
 
-```
-./zalenium exec \
-    docker run --rm -ti \
-        -e UNAME=robot \
-        -e GNAME=robot \
-        -e UID=$(id -u) \
-        -e GID=$(id -g) \
-        -e ZALENIUM_HOST=zalenium \
-        --link zalenium:zalenium \
-        -v "$(pwd)/results":/home/robot/results \
-        -v "$(pwd)/tests":/home/robot/tests \
-        robotframework/rfdocker:3.0.2-seleniumlibrary3 tests
-```
+    ./robot <path_to_tests1> [pybot_arguments]
+
+If none arguments are given, path `tests/` is assumed for tests.
 
 ## Other commands
 
