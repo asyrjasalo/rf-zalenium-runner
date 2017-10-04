@@ -1,8 +1,11 @@
+# run first: docker pull elgalu/selenium:3.5.3
+# usage: docker-compose up
+
 version: '2'
 
 services:
   zalenium:
-    image: dosel/zalenium:3
+    image: dosel/zalenium:3.5.3
     container_name: zalenium
     hostname: zalenium
     network_mode: bridge

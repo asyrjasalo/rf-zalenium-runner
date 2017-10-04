@@ -26,7 +26,7 @@ export -f wait_zalenium_started
 up() {
   if ! docker top zalenium &>/dev/null ; then
     echo "### Pulling Docker image 'elgalu/selenium'"
-    docker pull elgalu/selenium
+    docker pull elgalu/selenium:3.5.3
 
     if [ "$(uname -s)" != 'Darwin' ]; then
       echo "### Setting non-Darwin specific flags"
@@ -46,7 +46,7 @@ up() {
       -e BROWSER_STACK_KEY="$BROWSER_STACK_KEY" \
       -e TESTINGBOT_KEY="$TESTINGBOT_KEY" \
       -e TESTINGBOT_SECRET="$TESTINGBOT_SECRET" \
-      dosel/zalenium start \
+      dosel/zalenium:3.5.3 start \
         --chromeContainers 1 \
         --firefoxContainers 0 \
         --maxDockerSeleniumContainers 4 \
