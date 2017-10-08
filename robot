@@ -2,8 +2,6 @@
 
 ./zalenium exec \
     docker run --rm -ti \
-        -e UNAME=robot \
-        -e GNAME=robot \
         -e UID=$(id -u) \
         -e GID=$(id -g) \
         -e ZALENIUM_HOST=zalenium \
