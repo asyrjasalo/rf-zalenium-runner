@@ -27,6 +27,7 @@ up() {
   if ! docker top zalenium &>/dev/null ; then
     echo "### Pulling Docker image 'elgalu/selenium'"
     docker pull elgalu/selenium:3.5.3
+    docker network create --driver bridge zalenium || true
     "$this_path/docker/build.sh"
 
     if [ "$(uname -s)" != 'Darwin' ]; then
@@ -47,6 +48,7 @@ up() {
       -e BROWSER_STACK_KEY="$BROWSER_STACK_KEY" \
       -e TESTINGBOT_KEY="$TESTINGBOT_KEY" \
       -e TESTINGBOT_SECRET="$TESTINGBOT_SECRET" \
+      --network=zalenium \
       dosel/zalenium:3.5.3c start \
         --chromeContainers 1 \
         --firefoxContainers 0 \
@@ -75,6 +77,7 @@ up() {
 down() {
   docker stop zalenium
   docker rm zalenium
+  docker network remove zalenium
 }
 
 ### main #######################################################################
