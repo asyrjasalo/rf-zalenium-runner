@@ -1,5 +1,5 @@
 # run first: docker pull elgalu/selenium:3.5.3
-# usage: docker-compose up
+# usage: HOST_UID=$UID HOST_GID=$GID docker-compose up
 
 version: '2'
 
