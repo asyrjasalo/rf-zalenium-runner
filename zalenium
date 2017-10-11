@@ -27,6 +27,7 @@ up() {
   if ! docker top zalenium &>/dev/null ; then
     echo "### Pulling Docker image 'elgalu/selenium'"
     docker pull elgalu/selenium:3.5.3
+    "$this_path/docker/build.sh"
 
     if [ "$(uname -s)" != 'Darwin' ]; then
       echo "### Setting non-Darwin specific flags"
