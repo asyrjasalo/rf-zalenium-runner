@@ -32,8 +32,8 @@ up() {
     if [ "$(uname -s)" != 'Darwin' ]; then
       echo "### Setting non-Darwin specific flags"
       os_flags="-v $(which docker):/usr/bin/docker"
-      os_flags="$os_flags -e HOST_GID=$UID"
-      os_flags="$os_flags -e HOST_UID=$GID"
+      os_flags="$os_flags -e HOST_GID=$(id -u)"
+      os_flags="$os_flags -e HOST_UID=$(id -g)"
     fi
 
     echo "### Starting Zalenium in background"
