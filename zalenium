@@ -28,7 +28,6 @@ up() {
     echo "### Pulling Docker image 'elgalu/selenium'"
     docker pull elgalu/selenium:3.5.3
     docker network create --driver bridge zalenium || true
-    "$this_path/docker/build.sh"
 
     if [ "$(uname -s)" != 'Darwin' ]; then
       echo "### Setting non-Darwin specific flags"
