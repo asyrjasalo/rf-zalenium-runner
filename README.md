@@ -1,4 +1,4 @@
-[Robot Framework](https://github.com/robotframework/robotframework) [SeleniumLibrary tests](https://github.com/robotframework/SeleniumLibrary) in [Zalenium](https://github.com/zalando/zalenium):
+[Robot Framework](https://github.com/robotframework/robotframework) [SeleniumLibrary](https://github.com/robotframework/SeleniumLibrary) based tests in [Zalenium](https://github.com/zalando/zalenium):
 
     ./robot <path_to_tests1> [pybot_arguments]
 
