@@ -49,7 +49,7 @@ up() {
       -e TESTINGBOT_SECRET="$TESTINGBOT_SECRET" \
       --network=zalenium \
       dosel/zalenium:3.5.3c start \
-        --chromeContainers 1 \
+        --chromeContainers 2 \
         --firefoxContainers 0 \
         --maxDockerSeleniumContainers 4 \
         --screenWidth 1366 --screenHeight 768 \
