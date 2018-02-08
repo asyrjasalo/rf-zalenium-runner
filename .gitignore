@@ -1,2 +1,5 @@
-results
-videos
+*.pyc
+__pycache__
+
+results/
+videos/

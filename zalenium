@@ -6,28 +6,41 @@ set -e
 
 this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+### settings ###################################################################
+
+: ${SELENIUM_IMAGE_LABEL:="elgalu/selenium"}
+: ${SELENIUM_IMAGE_TAG:="3.9.0-p1"}
+: ${ZALENIUM_IMAGE_LABEL:="dosel/zalenium"}
+: ${ZALENIUM_IMAGE_TAG:="latest"}
+: ${ZALENIUM_NETWORK:="zalenium_default"}
+: ${SELENIUM_GRID_PORT:=4444}
+
 ### helpers ####################################################################
 
-portable_timeout() {
+_portable_timeout() {
   perl -e 'alarm shift; exec @ARGV' "$@";
 }
 
-wait_zalenium_started() {
+_wait_zalenium_ready() {
   local done_msg="Zalenium is now ready!"
   while ! docker logs zalenium | grep "$done_msg" >/dev/null; do
     echo -n '.'
     sleep 0.2
   done
 }
-export -f wait_zalenium_started
+export -f _wait_zalenium_ready
 
 ### actions ####################################################################
 
+down() {
+  docker rm --force zalenium 1>/dev/null
+}
+
 up() {
   if ! docker top zalenium &>/dev/null ; then
-    echo "### Pulling Docker image 'elgalu/selenium'"
-    docker pull elgalu/selenium:3.5.3
-    docker network create --driver bridge zalenium || true
+    echo "### Pulling Docker image for Selenium"
+    docker pull "$SELENIUM_IMAGE_LABEL:$SELENIUM_IMAGE_TAG"
+    docker network create --driver bridge $ZALENIUM_NETWORK 2>/dev/null || true
 
     if [ "$(uname -s)" != 'Darwin' ]; then
       echo "### Setting non-Darwin specific flags"
@@ -37,7 +50,7 @@ up() {
     fi
 
     echo "### Starting Zalenium in background"
-    docker run -d -t --name zalenium -p 4444:4444 \
+    docker run -d -t --name zalenium -p $SELENIUM_GRID_PORT:4444 \
       $os_flags \
       -v /var/run/docker.sock:/var/run/docker.sock \
       -v "$this_path/videos":/home/seluser/videos \
@@ -47,9 +60,9 @@ up() {
       -e BROWSER_STACK_KEY="$BROWSER_STACK_KEY" \
       -e TESTINGBOT_KEY="$TESTINGBOT_KEY" \
       -e TESTINGBOT_SECRET="$TESTINGBOT_SECRET" \
-      --network=zalenium \
-      dosel/zalenium:3.5.3c start \
-        --chromeContainers 2 \
+      --network="$ZALENIUM_NETWORK" \
+      "$ZALENIUM_IMAGE_LABEL:$ZALENIUM_IMAGE_TAG" start \
+        --chromeContainers 0 \
         --firefoxContainers 0 \
         --maxDockerSeleniumContainers 4 \
         --screenWidth 1366 --screenHeight 768 \
@@ -61,22 +74,16 @@ up() {
         --startTunnel false \
         --sendAnonymousUsageInfo false
 
-    trap "docker stop zalenium ; docker rm zalenium ; exit 1" SIGINT SIGTERM ERR
+    trap "down ; exit 1" SIGINT SIGTERM
 
     echo "### Waiting Zalenium to be started in background"
-    if ! portable_timeout 60 bash -c wait_zalenium_started 2>/dev/null; then
+    if ! _portable_timeout 60 bash -c _wait_zalenium_ready 2>/dev/null; then
       echo "Error: Zalenium starting timeouted, exiting."
       exit 124  # same as GNU coreutils `timeout` exit status
     fi
 
     echo "... ready for the tests"
   fi
-}
-
-down() {
-  docker stop zalenium
-  docker rm zalenium
-  docker network remove zalenium
 }
 
 ### main #######################################################################
@@ -87,7 +94,7 @@ action="$1"
 case "$action" in
   up|start)
     up
-    echo "### Zalenium running - to stop and remove: $0 down"
+    echo "### Zalenium running - to stop and remove it: $0 down"
     ;;
   reload|restart)
     down || true
@@ -95,7 +102,7 @@ case "$action" in
     ;;
   down|destroy)
     down
-    echo "### Done. Recorded videos were not removed."
+    echo "### Done - the recorded videos were not removed."
     ;;
   exec)
     up

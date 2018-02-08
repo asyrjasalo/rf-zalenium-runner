@@ -1,3 +1,2 @@
-robotframework-debuglibrary==1.0.2
-robotframework-seleniumlibrary==3.0.0b3
-robotframework-selenium2library==3.0.0b1
+robotframework-seleniumlibrary==3.0.1
+selenium==3.9.0

@@ -1,6 +1,6 @@
 [Robot Framework](https://github.com/robotframework/robotframework) [SeleniumLibrary](https://github.com/robotframework/SeleniumLibrary) based tests in [Zalenium](https://github.com/zalando/zalenium):
 
-    ./robot <path_to_tests1> [pybot_arguments]
+    ./webtests [path_to_tests] [pybot_arguments]
 
 If none arguments are given, path `tests/` is assumed for tests.
 

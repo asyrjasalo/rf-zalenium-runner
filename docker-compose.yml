@@ -1,15 +1,14 @@
-# run first: docker pull elgalu/selenium:3.5.3
-# usage: HOST_UID=$UID HOST_GID=$GID docker-compose up
+# usage:
+#
+# docker pull elgalu/selenium:3.9.0-p1
+# docker-compose --project-name "zalenium" up
 
 version: '2'
 
 services:
   zalenium:
-    image: dosel/zalenium:3.5.3c
+    image: dosel/zalenium:latest
     container_name: zalenium
-    hostname: zalenium
-    network_mode: bridge
-    tty: true
     volumes:
       - ./videos:/home/seluser/videos
       - /var/run/docker.sock:/var/run/docker.sock
