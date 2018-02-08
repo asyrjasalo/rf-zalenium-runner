@@ -6,11 +6,13 @@ this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 ### settings ###################################################################
 
+: ${BUILD_NAME:="seleniumlibrary"}
 : ${ZALENIUM_NETWORK:="zalenium_default"}
 
 ### wrap rfdocker to run inside zalenium #######################################
 
 ZALENIUM_NETWORK="$ZALENIUM_NETWORK" \
   "$this_path/zalenium" exec \
-    RUN_ARGS="--network=$ZALENIUM_NETWORK" BUILD_DIR="$this_path/docker" \
+    RUN_ARGS="--network=$ZALENIUM_NETWORK" \
+    BUILD_DIR="$this_path/docker" BUILD_NAME="$BUILD_NAME" \
       ./rfdocker -v GRID_HOST:zalenium ${@:-tests}
