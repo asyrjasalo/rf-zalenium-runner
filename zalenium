@@ -50,6 +50,9 @@ up() {
     fi
 
     echo "### Starting Zalenium in background"
+    local sauceLabs=$([ -n "$SAUCE_USERNAME" ] && echo 'true' || echo 'false')
+    local browserStack=$([ -n "$BROWSER_STACK_USER" ] && echo 'true' || echo 'false')
+    local testingBot=$([ -n "$TESTINGBOT_KEY" ] && echo 'true' || echo 'false')
     docker run -d -t --name zalenium -p $SELENIUM_GRID_PORT:4444 \
       $os_flags \
       -v /var/run/docker.sock:/var/run/docker.sock \
@@ -68,9 +71,9 @@ up() {
         --screenWidth 1366 --screenHeight 768 \
         --timeZone "Europe/Helsinki" \
         --videoRecordingEnabled true \
-        --sauceLabsEnabled false \
-        --browserStackEnabled false \
-        --testingBotEnabled false \
+        --sauceLabsEnabled $sauceLabs \
+        --browserStackEnabled $browserStack \
+        --testingBotEnabled $testingBot \
         --startTunnel false \
         --sendAnonymousUsageInfo false
 
