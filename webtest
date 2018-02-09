@@ -15,4 +15,4 @@ ZALENIUM_NETWORK="$ZALENIUM_NETWORK" \
   "$this_path/zalenium" exec \
     RUN_ARGS="--network=$ZALENIUM_NETWORK" \
     BUILD_DIR="$this_path/docker" BUILD_NAME="$BUILD_NAME" \
-      ./rfdocker -v GRID_HOST:zalenium ${@:-tests}
+      "$this_path/rfdocker" --variable GRID_HOST:zalenium ${@:-tests}
