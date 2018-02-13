@@ -10,6 +10,7 @@ this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 : ${SELENIUM_IMAGE_LABEL:="elgalu/selenium"}
 : ${SELENIUM_IMAGE_TAG:="3.9.0-p1"}
+: ${ZALENIUM_CONTAINER_NAME:="zalenium"}
 : ${ZALENIUM_IMAGE_LABEL:="dosel/zalenium"}
 : ${ZALENIUM_IMAGE_TAG:="latest"}
 : ${ZALENIUM_NETWORK:="zalenium_default"}
@@ -23,21 +24,22 @@ _portable_timeout() {
 
 _wait_zalenium_ready() {
   local done_msg="Zalenium is now ready!"
-  while ! docker logs zalenium | grep "$done_msg" >/dev/null; do
+  while ! docker logs "$ZALENIUM_CONTAINER_NAME" | grep "$done_msg"; do
     echo -n '.'
     sleep 0.2
   done
 }
+export ZALENIUM_CONTAINER_NAME
 export -f _wait_zalenium_ready
 
 ### actions ####################################################################
 
 down() {
-  docker rm --force zalenium 1>/dev/null
+  docker rm --force "$ZALENIUM_CONTAINER_NAME" 1>/dev/null
 }
 
 up() {
-  if ! docker top zalenium &>/dev/null ; then
+  if ! docker top "$ZALENIUM_CONTAINER_NAME" &>/dev/null ; then
     echo "### Pulling Docker image for Selenium"
     docker pull "$SELENIUM_IMAGE_LABEL:$SELENIUM_IMAGE_TAG"
     docker network create --driver bridge $ZALENIUM_NETWORK 2>/dev/null || true
@@ -53,7 +55,7 @@ up() {
     local sauceLabs=$([ -n "$SAUCE_USERNAME" ] && echo 'true' || echo 'false')
     local browserStack=$([ -n "$BROWSER_STACK_USER" ] && echo 'true' || echo 'false')
     local testingBot=$([ -n "$TESTINGBOT_KEY" ] && echo 'true' || echo 'false')
-    docker run -d -t --name zalenium -p $SELENIUM_GRID_PORT:4444 \
+    docker run -d -t --name "$ZALENIUM_CONTAINER_NAME" -p $SELENIUM_GRID_PORT:4444 \
       $os_flags \
       -v /var/run/docker.sock:/var/run/docker.sock \
       -v "$this_path/videos":/home/seluser/videos \
@@ -113,7 +115,7 @@ case "$action" in
     eval "$@"
     ;;
   logs)
-    docker logs zalenium --follow
+    docker logs "$ZALENIUM_CONTAINER_NAME" --follow
     ;;
   *)
     echo "Usage: $0 (up|reload|down|logs)|(exec <command>)"
