@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+### consts #####################################################################
+
+this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+### settings ###################################################################
+
+: ${GRID_URL:="192.168.99.100:32527"}
+
+### run tests ##################################################################
+
+# curl install kubectl
+# curl install minikube
+
+# eval $(minikube docker-env)
+# docker pull elgalu/selenium
+# docker pull dosel/zalenium
+
+# sudo mkdir -p /mnt/sda1/data/videos
+# sudo chown 777 /mnt/sda1/data/videos
+
+# kubectl replace --force -f kubernetes/
+# minikube service zalenium
+
+RUN_ARGS="--network=host" BUILD_DIR="$this_path/docker" \
+  "$this_path/rfdocker" --variable GRID_URL:"$GRID_URL" \
+    ${@:-tests}
