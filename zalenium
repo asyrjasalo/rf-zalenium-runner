@@ -69,8 +69,7 @@ up() {
       -e TESTINGBOT_SECRET="$TESTINGBOT_SECRET" \
       --network="$ZALENIUM_NETWORK" \
       "$ZALENIUM_IMAGE_LABEL:$ZALENIUM_IMAGE_TAG" start \
-        --chromeContainers 0 \
-        --firefoxContainers 0 \
+        --desiredContainers 0 \
         --maxDockerSeleniumContainers 4 \
         --screenWidth 1366 --screenHeight 768 \
         --timeZone "Europe/Helsinki" \
