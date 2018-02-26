@@ -14,7 +14,7 @@ this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 : ${SELENIUM_IMAGE_TAG:="3.9.1-p2"}
 : ${ZALENIUM_CONTAINER_NAME:="zalenium"}
 : ${ZALENIUM_IMAGE_LABEL:="dosel/zalenium"}
-: ${ZALENIUM_IMAGE_TAG:="latest"}
+: ${ZALENIUM_IMAGE_TAG:="3.9.1a"}
 : ${ZALENIUM_NETWORK:="zalenium_default"}
 : ${SELENIUM_GRID_PORT:=4444}
 

@@ -7,7 +7,7 @@ version: '2'
 
 services:
   zalenium:
-    image: dosel/zalenium:latest
+    image: dosel/zalenium:3.9.1a
     container_name: zalenium
     volumes:
       - ./videos:/home/seluser/videos
