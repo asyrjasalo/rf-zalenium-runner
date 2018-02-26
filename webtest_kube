@@ -13,6 +13,8 @@ this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # curl install kubectl
 # curl install minikube
 
+# minikube start --memory 8192
+
 # eval $(minikube docker-env)
 # docker pull elgalu/selenium
 # docker pull dosel/zalenium
