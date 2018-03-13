@@ -85,6 +85,7 @@ up() {
     echo "### Waiting Zalenium to be started in background"
     if ! _portable_timeout 60 bash -c _wait_zalenium_ready 2>/dev/null; then
       echo "Error: Zalenium starting timeouted, exiting."
+      down
       exit 124  # same as GNU coreutils `timeout` exit status
     fi
 
