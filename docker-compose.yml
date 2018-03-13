@@ -1,13 +1,13 @@
 # usage:
 #
-# docker pull elgalu/selenium:3.11.0-p0
+# docker pull elgalu/selenium:3.11.0-p1
 # HOST_UID=$(id -u) HOST_GID=$(id -g) docker-compose --project-name "zalenium" up
 
 version: '2'
 
 services:
   zalenium:
-    image: dosel/zalenium:3.10.0c
+    image: dosel/zalenium:3.9.1a
     container_name: zalenium
     volumes:
       - ./videos:/home/seluser/videos

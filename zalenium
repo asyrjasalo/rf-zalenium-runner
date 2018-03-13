@@ -11,10 +11,10 @@ this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ### settings ###################################################################
 
 : ${SELENIUM_IMAGE_LABEL:="elgalu/selenium"}
-: ${SELENIUM_IMAGE_TAG:="3.11.0-p0"}
+: ${SELENIUM_IMAGE_TAG:="3.11.0-p1"}
 : ${ZALENIUM_CONTAINER_NAME:="zalenium"}
 : ${ZALENIUM_IMAGE_LABEL:="dosel/zalenium"}
-: ${ZALENIUM_IMAGE_TAG:="3.10.0c"}
+: ${ZALENIUM_IMAGE_TAG:="3.9.1a"}
 : ${ZALENIUM_NETWORK:="zalenium_default"}
 : ${SELENIUM_GRID_PORT:=4444}
 
